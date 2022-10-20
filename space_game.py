@@ -3,7 +3,6 @@ Space game
 """
 import sys
 import random
-from tkinter import Y
 import pygame
 
 
@@ -18,7 +17,15 @@ PLAYER_INIT_Y = 500
 
 
 class Player:
+
+    """
+    Player class
+    """
+
     def __init__(self, window_surface, player_img, x_axis, y_axis):
+        """
+        Init Method
+        """
         self.x_axis = x_axis
         self.y_axis = y_axis
         self.window_surface = window_surface
@@ -26,15 +33,24 @@ class Player:
         self.alive = True
 
     def move(self, right, left):
+        """
+        Move Method
+        """
         if right and self.x_axis < 720:
             self.x_axis += PLAYER_SPEED
         elif left and self.x_axis > 20:
             self.x_axis -= PLAYER_SPEED
 
     def draw(self):
+        """
+        Draw Method
+        """
         self.window_surface.blit(self.player_img, (self.x_axis, self.y_axis))
 
     def check_dead(self, enemy):
+        """
+        check if dead
+        """
         if (abs(self.x_axis - enemy.x_axis) < 25) and (
             abs(self.y_axis - enemy.y_axis) < 25
         ):
@@ -43,11 +59,21 @@ class Player:
             self.alive = False
 
     def is_alive(self):
+        """
+        check if alive
+        """
         return self.alive
 
 
 class Enemy:
+    """
+    Enemy class
+    """
+
     def __init__(self, window_surface, enemy_img):
+        """
+        Init Method
+        """
         self.x_axis = random.randint(100, 700)
         self.y_axis = 20
         self.window_surface = window_surface
@@ -57,6 +83,9 @@ class Enemy:
         self.rect = self.enemy_img.get_rect()
 
     def move(self):
+        """
+        Move Method
+        """
         if self.x_axis > 740:
             self.dir *= -1
             self.x_axis -= ENEMY_SPEED_X
@@ -71,25 +100,41 @@ class Enemy:
         else:
             self.x_axis += self.dir * ENEMY_SPEED_X
 
-    def check_dead(self, bs):
-        for bu in bs:
-            if bu.is_alive():
-                if (abs(self.x_axis - bu.x_axis) < 25) and (
-                    abs(self.y_axis - bu.y_axis) < 25
+    def check_dead(self, incoming_bullets):
+        """
+        check if dead
+        """
+        for incoming_bullet in incoming_bullets:
+            if incoming_bullet.is_alive():
+                if (abs(self.x_axis - incoming_bullet.x_axis) < 25) and (
+                    abs(self.y_axis - incoming_bullet.y_axis) < 25
                 ):
                     self.alive = False
-                    bu.alive = False
+                    incoming_bullet.alive = False
                     break
 
     def draw(self):
+        """
+        Draw Method
+        """
         self.window_surface.blit(self.enemy_img, (self.x_axis, self.y_axis))
 
     def is_alive(self):
+        """
+        check if alive
+        """
         return self.alive
 
 
 class Bullet:
+    """
+    Bullet class
+    """
+
     def __init__(self, window_surface, bullet_img, x_axis, y_axis):
+        """
+        Init Method
+        """
         self.x_axis = x_axis
         self.y_axis = y_axis
         self.window_surface = window_surface
@@ -97,15 +142,24 @@ class Bullet:
         self.alive = True
 
     def move(self):
+        """
+        Move Method
+        """
         if self.y_axis >= 20:
             self.y_axis -= BULLET_SPEED
         else:
             self.alive = False
 
     def draw(self):
+        """
+        Draw Method
+        """
         self.window_surface.blit(self.bullet_img, (self.x_axis, self.y_axis))
 
     def is_alive(self):
+        """
+        check if alive
+        """
         return self.alive
 
 

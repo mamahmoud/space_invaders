@@ -34,6 +34,14 @@ class Player:
     def draw(self):
         self.window_surface.blit(self.player_img, (self.x_axis, self.y_axis))
 
+    def check_dead(self, enemy):
+        if (abs(self.x_axis - enemy.x_axis) < 25) and (
+            abs(self.y_axis - enemy.y_axis) < 25
+        ):
+            self.alive = False
+        elif enemy.y_axis >= self.y_axis:
+            self.alive = False
+
     def is_alive(self):
         return self.alive
 
@@ -150,6 +158,9 @@ if __name__ == "__main__":
         if enemy_1.is_alive():
             enemy_1.move()
             enemy_1.check_dead(bullets)
+        if enemy_1.is_alive():
+            player_1.check_dead(enemy_1)
+
         # draw a player
         if player_1.is_alive():
             player_1.draw()

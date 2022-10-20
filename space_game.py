@@ -113,11 +113,12 @@ class Enemy:
                 if (abs(self.x_axis - incoming_bullet.x_axis) < 25) and (
                     abs(self.y_axis - incoming_bullet.y_axis) < 25
                 ):
-                    self.x_axis = random.randint(100, 700)
-                    self.y_axis = random.choice(INTIAL_ENEMY_POS_Y)
+
                     incoming_bullet.alive = False
                     player.score += 1
                     Bullet.max_bullets += 1
+                    self.x_axis = random.randint(100, 700)
+                    self.y_axis = random.choice(INTIAL_ENEMY_POS_Y) + player.score // 5
                     break
 
     def draw(self):

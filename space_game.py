@@ -14,6 +14,7 @@ PLAYER_SPEED = 10
 BULLET_SPEED = 10
 PLAYER_INIT_X = 370
 PLAYER_INIT_Y = 500
+DIFFCULTY = 1
 
 
 class Player:
@@ -78,11 +79,11 @@ class Enemy:
         Init Method
         """
         self.x_axis = random.randint(100, 700)
-        self.y_axis = 20
+        self.y_axis = random.choice([20, 40, 60, 80, 100])
         self.window_surface = window_surface
         self.enemy_img = enemy_img
         self.alive = True
-        self.dir = 1
+        self.dir = random.choice([-1, 1])
         self.rect = self.enemy_img.get_rect()
 
     def move(self):
@@ -185,6 +186,9 @@ if __name__ == "__main__":
     player_1 = Player(game_screen, player_image, PLAYER_INIT_X, PLAYER_INIT_Y)
     enemy_1 = Enemy(game_screen, enemy_image)
     bullets = []
+    enemies = []
+    for ind in range(DIFFCULTY * 5):
+        enemies.append(Enemy(game_screen, enemy_image))
     # game loop
     while True:
         # background
@@ -228,19 +232,24 @@ if __name__ == "__main__":
             for bullet in bullets:
                 if bullet.is_alive():
                     bullet.move()
-        # moving enemy
-        if enemy_1.is_alive():
-            enemy_1.move()
-            enemy_1.check_dead(bullets, player_1)
-        if enemy_1.is_alive():
-            player_1.check_dead(enemy_1)
+        # moving enemies
+
+        for enemy in enemies:
+            if enemy.is_alive():
+                enemy.move()
+                enemy.check_dead(bullets, player_1)
+        for enemy in enemies:
+            if enemy.is_alive():
+                player_1.check_dead(enemy)
 
         # draw a player
         if player_1.is_alive():
             player_1.draw()
         # draw enemy
-        if enemy_1.is_alive():
-            enemy_1.draw()
+        for enemy in enemies:
+            if enemy.is_alive():
+                enemy.draw()
+
         if len(bullets) > 0:
             for bullet in bullets:
                 if bullet.is_alive():

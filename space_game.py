@@ -4,6 +4,7 @@ Space game
 import sys
 import random
 import pygame
+import winsound
 
 
 WIDTH = 800
@@ -119,6 +120,7 @@ class Enemy:
                     Bullet.max_bullets += 1
                     self.x_axis = random.randint(100, 700)
                     self.y_axis = random.choice(INTIAL_ENEMY_POS_Y) + player.score
+                    winsound.PlaySound("explosion.wav", winsound.SND_ASYNC)
                     break
 
     def draw(self):
@@ -182,7 +184,7 @@ def print_game_over(window_surface, font):
     print score
     """
     text_score = font.render("Game Over", True, (255, 255, 255))
-    window_surface.blit(text_score, (10, 10))
+    window_surface.blit(text_score, (400, 300))
 
 
 if __name__ == "__main__":
@@ -198,14 +200,20 @@ if __name__ == "__main__":
     game_icon = pygame.image.load("startup.png")
     # player image
     player_image = pygame.image.load("space-invaders.png")
+    # enemy_images
     enemy_images = [pygame.image.load(alien) for alien in ALIENS]
-    # player image
+    # background image
     background_image = pygame.image.load("background.jpg")
+    # bullets image
     bullet_image = pygame.image.load("bullet.png")
+    # create player
     player_1 = Player(game_screen, player_image, PLAYER_INIT_X, PLAYER_INIT_Y)
+    # create font
     score_font = pygame.font.Font("freesansbold.ttf", 32)
     bullets = []
+    # create enemies
     enemies = []
+    # create sounds.
     for ind in range(ENEMY_MULTIPLIER * 5):
         enemies.append(Enemy(game_screen, enemy_images[random.randint(0, 4)]))
     # game loop
@@ -243,6 +251,7 @@ if __name__ == "__main__":
                             player_1.y_axis,
                         )
                     )
+                    winsound.PlaySound("game-gun.wav", winsound.SND_ASYNC)
 
         # moving player
         if player_1.on_move_right:
@@ -278,9 +287,9 @@ if __name__ == "__main__":
         if n_bull > 3:
             bullets = bullets[n_bull - 3 : n_bull]
         # Print score
-        if player_1.is_alive():
-            print_score(game_screen, player_1, score_font)
-        else:
+
+        print_score(game_screen, player_1, score_font)
+        if not player_1.is_alive():
             print_game_over(game_screen, score_font)
         # update animation
         pygame.display.update()

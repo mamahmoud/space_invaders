@@ -9,7 +9,7 @@ import pygame
 
 WIDTH = 800
 HEIGHT = 600
-ENEMY_SPEED_X = 2
+ENEMY_SPEED_X = 4
 ENEMY_SPEED_Y = 20
 PLAYER_SPEED = 10
 BULLET_SPEED = 10
@@ -45,18 +45,22 @@ class Enemy:
         self.window_surface = window_surface
         self.enemy_img = enemy_img
         self.alive = True
+        self.dir = 1
 
     def move(self):
         if self.x_axis > 740:
+            self.dir *= -1
+            self.x_axis -= ENEMY_SPEED_X
             self.y_axis += ENEMY_SPEED_Y
-            pass
-        elif self.x_axis < 60:
+
+        elif self.x_axis < 10:
+            self.dir *= -1
+            self.x_axis += ENEMY_SPEED_X
             self.y_axis += ENEMY_SPEED_Y
-            pass
-        elif self.y_axis > 550:
+        elif self.y_axis > 500:
             pass
         else:
-            self.x_axis += ENEMY_SPEED_X
+            self.x_axis += self.dir * ENEMY_SPEED_X
 
     def draw(self):
         self.window_surface.blit(self.enemy_img, (self.x_axis, self.y_axis))

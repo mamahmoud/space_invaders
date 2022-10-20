@@ -233,15 +233,9 @@ if __name__ == "__main__":
                 if bullet.is_alive():
                     bullet.move()
         # moving enemies
-
         for enemy in enemies:
             if enemy.is_alive():
                 enemy.move()
-                enemy.check_dead(bullets, player_1)
-        for enemy in enemies:
-            if enemy.is_alive():
-                player_1.check_dead(enemy)
-
         # draw a player
         if player_1.is_alive():
             player_1.draw()
@@ -249,11 +243,16 @@ if __name__ == "__main__":
         for enemy in enemies:
             if enemy.is_alive():
                 enemy.draw()
+        # draw bullets
+        for bullet in bullets:
+            if bullet.is_alive():
+                bullet.draw()
+        # check for collisions
+        for enemy in enemies:
+            if enemy.is_alive():
+                enemy.check_dead(bullets, player_1)
+                player_1.check_dead(enemy)
 
-        if len(bullets) > 0:
-            for bullet in bullets:
-                if bullet.is_alive():
-                    bullet.draw()
         print(player_1.score)
         # update animation
         pygame.display.update()

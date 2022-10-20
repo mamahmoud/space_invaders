@@ -118,7 +118,7 @@ class Enemy:
                     player.score += 1
                     Bullet.max_bullets += 1
                     self.x_axis = random.randint(100, 700)
-                    self.y_axis = random.choice(INTIAL_ENEMY_POS_Y) + player.score // 5
+                    self.y_axis = random.choice(INTIAL_ENEMY_POS_Y) + player.score // 2
                     break
 
     def draw(self):

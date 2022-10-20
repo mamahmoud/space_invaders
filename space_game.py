@@ -14,7 +14,8 @@ PLAYER_SPEED = 10
 BULLET_SPEED = 10
 PLAYER_INIT_X = 370
 PLAYER_INIT_Y = 500
-DIFFCULTY = 1
+ENEMY_MULTIPLIER = 1
+N_BULLETS = 3
 
 
 class Player:
@@ -115,6 +116,7 @@ class Enemy:
                     self.alive = False
                     incoming_bullet.alive = False
                     player.score += 1
+                    Bullet.max_bullets += 1
                     break
 
     def draw(self):
@@ -135,6 +137,8 @@ class Bullet:
     Bullet class
     """
 
+    max_bullets = N_BULLETS
+
     def __init__(self, window_surface, bullet_img, x_axis, y_axis):
         """
         Init Method
@@ -144,6 +148,7 @@ class Bullet:
         self.window_surface = window_surface
         self.bullet_img = bullet_img
         self.alive = True
+        Bullet.max_bullets -= 1
 
     def move(self):
         """
@@ -153,6 +158,7 @@ class Bullet:
             self.y_axis -= BULLET_SPEED
         else:
             self.alive = False
+            Bullet.max_bullets += 1
 
     def draw(self):
         """
@@ -186,7 +192,7 @@ if __name__ == "__main__":
     enemy_1 = Enemy(game_screen, enemy_image)
     bullets = []
     enemies = []
-    for ind in range(DIFFCULTY * 5):
+    for ind in range(ENEMY_MULTIPLIER * 5):
         enemies.append(Enemy(game_screen, enemy_image))
     # game loop
     while True:
@@ -214,11 +220,15 @@ if __name__ == "__main__":
                     player_1.on_move_left = False
             # fire
             if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_a):
-                bullets.append(
-                    Bullet(
-                        game_screen, bullet_image, player_1.x_axis + 24, player_1.y_axis
+                if Bullet.max_bullets > 0:
+                    bullets.append(
+                        Bullet(
+                            game_screen,
+                            bullet_image,
+                            player_1.x_axis + 24,
+                            player_1.y_axis,
+                        )
                     )
-                )
 
         # moving player
         if player_1.on_move_right:

@@ -46,6 +46,7 @@ class Enemy:
         self.enemy_img = enemy_img
         self.alive = True
         self.dir = 1
+        self.rect = self.enemy_img.get_rect()
 
     def move(self):
         if self.x_axis > 740:
@@ -61,6 +62,16 @@ class Enemy:
             pass
         else:
             self.x_axis += self.dir * ENEMY_SPEED_X
+
+    def check_dead(self, bs):
+        for bu in bs:
+            if bu.is_alive():
+                if (abs(self.x_axis - bu.x_axis) < 25) and (
+                    abs(self.y_axis - bu.y_axis) < 25
+                ):
+                    self.alive = False
+                    bu.alive = False
+                    break
 
     def draw(self):
         self.window_surface.blit(self.enemy_img, (self.x_axis, self.y_axis))
@@ -138,6 +149,7 @@ if __name__ == "__main__":
         # moving enemy
         if enemy_1.is_alive():
             enemy_1.move()
+            enemy_1.check_dead(bullets)
         # draw a player
         if player_1.is_alive():
             player_1.draw()

@@ -3,8 +3,8 @@ Space game
 """
 import sys
 import random
-import pygame
 import winsound
+import pygame
 
 
 WIDTH = 800

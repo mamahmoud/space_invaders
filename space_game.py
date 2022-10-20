@@ -31,6 +31,8 @@ class Player:
         self.window_surface = window_surface
         self.player_img = player_img
         self.alive = True
+        self.on_move_right = False
+        self.on_move_left = False
 
     def move(self, right, left):
         """
@@ -192,10 +194,19 @@ if __name__ == "__main__":
             if event.type == pygame.KEYDOWN:
                 # right
                 if event.key == pygame.K_RIGHT and player_1.is_alive():
-                    player_1.move(True, False)
+                    player_1.on_move_right = True
+                    player_1.on_move_left = False
                 # left
                 elif event.key == pygame.K_LEFT and player_1.is_alive():
-                    player_1.move(False, True)
+                    player_1.on_move_right = False
+                    player_1.on_move_left = True
+
+            elif event.type == pygame.KEYUP:
+                if (
+                    event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT
+                ) and player_1.is_alive():
+                    player_1.on_move_right = False
+                    player_1.on_move_left = False
             # fire
             if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_a):
                 bullets.append(
@@ -203,6 +214,13 @@ if __name__ == "__main__":
                         game_screen, bullet_image, player_1.x_axis + 24, player_1.y_axis
                     )
                 )
+
+        # moving player
+        if player_1.on_move_right:
+            player_1.move(True, False)
+        elif player_1.on_move_left:
+            player_1.move(False, True)
+
         # moving bullets
         if len(bullets) > 0:
             for bullet in bullets:

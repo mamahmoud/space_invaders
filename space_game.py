@@ -14,9 +14,10 @@ PLAYER_SPEED = 10
 BULLET_SPEED = 10
 PLAYER_INIT_X = 370
 PLAYER_INIT_Y = 500
-ENEMY_MULTIPLIER = 1
+ENEMY_MULTIPLIER = 3
 N_BULLETS = 3
 ALIENS = ["alien-1.png", "alien-2.png", "alien-3.png", "alien-4.png", "alien-5.png"]
+INTIAL_ENEMY_POS_Y = list(range(10, 101, 10))
 
 
 class Player:
@@ -80,12 +81,10 @@ class Enemy:
         Init Method
         """
         self.x_axis = random.randint(100, 700)
-        self.y_axis = random.choice([20, 40, 60, 80, 100])
+        self.y_axis = random.choice(INTIAL_ENEMY_POS_Y)
         self.window_surface = window_surface
         self.enemy_img = enemy_img
-        self.alive = True
         self.dir = random.choice([-1, 1])
-        self.rect = self.enemy_img.get_rect()
 
     def move(self):
         """
@@ -114,7 +113,8 @@ class Enemy:
                 if (abs(self.x_axis - incoming_bullet.x_axis) < 25) and (
                     abs(self.y_axis - incoming_bullet.y_axis) < 25
                 ):
-                    self.alive = False
+                    self.x_axis = random.randint(100, 700)
+                    self.y_axis = random.choice(INTIAL_ENEMY_POS_Y)
                     incoming_bullet.alive = False
                     player.score += 1
                     Bullet.max_bullets += 1
@@ -125,12 +125,6 @@ class Enemy:
         Draw Method
         """
         self.window_surface.blit(self.enemy_img, (self.x_axis, self.y_axis))
-
-    def is_alive(self):
-        """
-        check if alive
-        """
-        return self.alive
 
 
 class Bullet:
@@ -245,24 +239,21 @@ if __name__ == "__main__":
                     bullet.move()
         # moving enemies
         for enemy in enemies:
-            if enemy.is_alive():
-                enemy.move()
+            enemy.move()
         # draw a player
         if player_1.is_alive():
             player_1.draw()
         # draw enemy
         for enemy in enemies:
-            if enemy.is_alive():
-                enemy.draw()
+            enemy.draw()
         # draw bullets
         for bullet in bullets:
             if bullet.is_alive():
                 bullet.draw()
         # check for collisions
         for enemy in enemies:
-            if enemy.is_alive():
-                enemy.check_dead(bullets, player_1)
-                player_1.check_dead(enemy)
+            enemy.check_dead(bullets, player_1)
+            player_1.check_dead(enemy)
 
         print(player_1.score)
         # update animation

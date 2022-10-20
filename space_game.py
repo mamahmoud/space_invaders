@@ -18,7 +18,6 @@ DIFFCULTY = 1
 
 
 class Player:
-
     """
     Player class
     """

@@ -33,6 +33,7 @@ class Player:
         self.alive = True
         self.on_move_right = False
         self.on_move_left = False
+        self.score = 0
 
     def move(self, right, left):
         """
@@ -102,7 +103,7 @@ class Enemy:
         else:
             self.x_axis += self.dir * ENEMY_SPEED_X
 
-    def check_dead(self, incoming_bullets):
+    def check_dead(self, incoming_bullets, player):
         """
         check if dead
         """
@@ -113,6 +114,7 @@ class Enemy:
                 ):
                     self.alive = False
                     incoming_bullet.alive = False
+                    player.score += 1
                     break
 
     def draw(self):
@@ -229,7 +231,7 @@ if __name__ == "__main__":
         # moving enemy
         if enemy_1.is_alive():
             enemy_1.move()
-            enemy_1.check_dead(bullets)
+            enemy_1.check_dead(bullets, player_1)
         if enemy_1.is_alive():
             player_1.check_dead(enemy_1)
 
@@ -243,7 +245,7 @@ if __name__ == "__main__":
             for bullet in bullets:
                 if bullet.is_alive():
                     bullet.draw()
-
+        print(player_1.score)
         # update animation
         pygame.display.update()
         clock.tick(60)

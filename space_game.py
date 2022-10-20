@@ -216,6 +216,8 @@ if __name__ == "__main__":
     # create sounds.
     for ind in range(ENEMY_MULTIPLIER * 5):
         enemies.append(Enemy(game_screen, enemy_images[random.randint(0, 4)]))
+    pygame.mixer.music.load("battle.wav")
+    pygame.mixer.music.play(-1)
     # game loop
     while True:
         # background

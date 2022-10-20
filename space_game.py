@@ -16,6 +16,7 @@ PLAYER_INIT_X = 370
 PLAYER_INIT_Y = 500
 ENEMY_MULTIPLIER = 1
 N_BULLETS = 3
+ALIENS = ["alien-1.png", "alien-2.png", "alien-3.png", "alien-4.png", "alien-5.png"]
 
 
 class Player:
@@ -184,16 +185,17 @@ if __name__ == "__main__":
     pygame.display.set_caption("Space Game v2 by mohamed")
     # adding image icon
     game_icon = pygame.image.load("startup.png")
+    # player image
     player_image = pygame.image.load("space-invaders.png")
-    enemy_image = pygame.image.load("alien.png")
+    enemy_images = [pygame.image.load(alien) for alien in ALIENS]
+    # player image
     background_image = pygame.image.load("background.jpg")
     bullet_image = pygame.image.load("bullet.png")
     player_1 = Player(game_screen, player_image, PLAYER_INIT_X, PLAYER_INIT_Y)
-    enemy_1 = Enemy(game_screen, enemy_image)
     bullets = []
     enemies = []
     for ind in range(ENEMY_MULTIPLIER * 5):
-        enemies.append(Enemy(game_screen, enemy_image))
+        enemies.append(Enemy(game_screen, enemy_images[random.randint(0, 4)]))
     # game loop
     while True:
         # background

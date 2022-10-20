@@ -112,7 +112,7 @@ if __name__ == "__main__":
     while True:
         # background
         game_screen.blit(background_image, (0, 0))
-        enemy_1.move()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit(0)
@@ -136,10 +136,12 @@ if __name__ == "__main__":
                 if bullet.is_alive():
                     bullet.move()
         # moving enemy
-
-        # draw aplayer
+        if enemy_1.is_alive():
+            enemy_1.move()
+        # draw a player
         if player_1.is_alive():
             player_1.draw()
+        # draw enemy
         if enemy_1.is_alive():
             enemy_1.draw()
         if len(bullets) > 0:

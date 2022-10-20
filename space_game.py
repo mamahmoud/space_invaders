@@ -169,6 +169,22 @@ class Bullet:
         return self.alive
 
 
+def print_score(window_surface, player, font):
+    """
+    print score
+    """
+    text_score = font.render(f"score is {player.score}", True, (255, 255, 255))
+    window_surface.blit(text_score, (10, 10))
+
+
+def print_game_over(window_surface, font):
+    """
+    print score
+    """
+    text_score = font.render("Game Over", True, (255, 255, 255))
+    window_surface.blit(text_score, (10, 10))
+
+
 if __name__ == "__main__":
     # initialize
     pygame.init()
@@ -187,6 +203,7 @@ if __name__ == "__main__":
     background_image = pygame.image.load("background.jpg")
     bullet_image = pygame.image.load("bullet.png")
     player_1 = Player(game_screen, player_image, PLAYER_INIT_X, PLAYER_INIT_Y)
+    score_font = pygame.font.Font("freesansbold.ttf", 32)
     bullets = []
     enemies = []
     for ind in range(ENEMY_MULTIPLIER * 5):
@@ -195,7 +212,7 @@ if __name__ == "__main__":
     while True:
         # background
         game_screen.blit(background_image, (0, 0))
-
+        # events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit(0)
@@ -256,7 +273,15 @@ if __name__ == "__main__":
             enemy.check_dead(bullets, player_1)
             player_1.check_dead(enemy)
 
-        print(player_1.score)
+        # remove dead bullets
+        n_bull = len(bullets)
+        if n_bull > 3:
+            bullets = bullets[n_bull - 3 : n_bull]
+        # Print score
+        if player_1.is_alive():
+            print_score(game_screen, player_1, score_font)
+        else:
+            print_game_over(game_screen, score_font)
         # update animation
         pygame.display.update()
         clock.tick(60)

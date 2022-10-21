@@ -208,15 +208,18 @@ if __name__ == "__main__":
     bullet_image = pygame.image.load("bullet.png")
     # create player
     player_1 = Player(game_screen, player_image, PLAYER_INIT_X, PLAYER_INIT_Y)
-    # create font
+    # create font for score
     score_font = pygame.font.Font("freesansbold.ttf", 32)
+    # create font for game over
     game_over_font = pygame.font.Font("freesansbold.ttf", 40)
+    # list of bullets
     bullets = []
-    # create enemies
-    enemies = []
-    # create sounds.
-    for ind in range(ENEMY_MULTIPLIER * 5):
-        enemies.append(Enemy(game_screen, enemy_images[random.randint(0, 4)]))
+    # create list of enemies enemies
+    enemies = [
+        Enemy(game_screen, enemy_images[random.randint(0, 4)])
+        for _ in range(ENEMY_MULTIPLIER * 5)
+    ]
+    # create battle sounds.
     pygame.mixer.music.load("battle.wav")
     pygame.mixer.music.play(-1)
     # game loop

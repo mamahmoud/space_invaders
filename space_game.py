@@ -266,10 +266,9 @@ if __name__ == "__main__":
             player_1.move(False, True)
 
         # moving bullets
-        if len(bullets) > 0:
-            for bullet in bullets:
-                if bullet.is_alive():
-                    bullet.move()
+        for bullet in bullets:
+            if bullet.is_alive():
+                bullet.move()
         # moving enemies
         for enemy in enemies:
             enemy.move()
@@ -289,9 +288,9 @@ if __name__ == "__main__":
             player_1.check_dead(enemy)
 
         # remove dead bullets
-        n_bull = len(bullets)
-        if n_bull > N_BULLETS:
-            bullets = bullets[n_bull - N_BULLETS : n_bull]
+        num_bull = len(bullets)
+        if num_bull > N_BULLETS:
+            bullets = bullets[num_bull - N_BULLETS : num_bull]
         # Print score
 
         print_score(game_screen, player_1, score_font)

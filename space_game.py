@@ -184,7 +184,7 @@ def print_game_over(window_surface, font):
     print score
     """
     text_score = font.render("Game Over", True, (255, 255, 255))
-    window_surface.blit(text_score, (400, 300))
+    window_surface.blit(text_score, (285, 300))
 
 
 if __name__ == "__main__":
@@ -210,6 +210,7 @@ if __name__ == "__main__":
     player_1 = Player(game_screen, player_image, PLAYER_INIT_X, PLAYER_INIT_Y)
     # create font
     score_font = pygame.font.Font("freesansbold.ttf", 32)
+    game_over_font = pygame.font.Font("freesansbold.ttf", 40)
     bullets = []
     # create enemies
     enemies = []
@@ -292,7 +293,7 @@ if __name__ == "__main__":
 
         print_score(game_screen, player_1, score_font)
         if not player_1.is_alive():
-            print_game_over(game_screen, score_font)
+            print_game_over(game_screen, game_over_font)
         # update animation
         pygame.display.update()
         clock.tick(60)

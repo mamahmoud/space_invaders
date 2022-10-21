@@ -286,8 +286,8 @@ if __name__ == "__main__":
 
         # remove dead bullets
         n_bull = len(bullets)
-        if n_bull > 3:
-            bullets = bullets[n_bull - 3 : n_bull]
+        if n_bull > N_BULLETS:
+            bullets = bullets[n_bull - N_BULLETS : n_bull]
         # Print score
 
         print_score(game_screen, player_1, score_font)
